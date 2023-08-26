@@ -5,8 +5,10 @@ import argparse
 from os.path import isdir, exists
 from os import mkdir
 import multiprocessing as mp
+from pprint import pprint
 
 from PIL import Image
+
 
 def correct(data):
     p = Path(data[0])
@@ -16,11 +18,12 @@ def correct(data):
     out_fp = parent + '/corrected/' + name + '_corrected' + fileType
     try:
         im = Image.open(p)
+        exif = im.getexif()
         width, height = im.size
         width *= data[1]
         newsize = (int(width), height)
         im_out = im.resize(newsize)
-        im_out.save(out_fp)
+        im_out.save(out_fp, exif=exif)
         print(name + ' done.')
     except:
         pass
@@ -49,3 +52,5 @@ if __name__ == '__main__':
     main()
 
 # /home/bimbim/Pictures/photos
+# C:\Users\pmben\Pictures\FUJI
+# C:\Users\pmben\Pictures\FUJI\test
